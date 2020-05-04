@@ -1,0 +1,21 @@
+<ion-header>
+
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <input class="locationinput" type="text" id="searchbar" #searchbar />
+    <!-- <ion-title>{{ address ? address.formatted_address : '' }}</ion-title> -->
+    <ion-buttons slot="end">
+      <ion-button (click)="selectPlace()">
+        Done
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div #map id="map"></div>
+</ion-content>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "841837899222",
+    "firebase_url": "https://cuberdriver-94fde.firebaseio.com",
+    "project_id": "cuberdriver-94fde",
+    "storage_bucket": "cuberdriver-94fde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:841837899222:android:0adc4f893b347900d10877",
+        "android_client_info": {
+          "package_name": "com.codesundar.iontaxidriver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "841837899222-dbd68fgscje2q68o5pbi00dkg53c5d9g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0Hr34eH4MwvL0VoEGWd2jVkNfKF_D2cg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "841837899222-dbd68fgscje2q68o5pbi00dkg53c5d9g.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "841837899222-ml292j3slgkll8en4sivbo6paukoa6sr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.codesundar.iontaxidriver"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

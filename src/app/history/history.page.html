@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{'HISTORY' | translate}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <p *ngIf="trips.length == 0" style="margin-top: 5px; text-align: center">No Trips Found</p>
+  <ion-list>
+    <ion-item *ngFor="let trip of trips">
+      <ion-label>
+        <ion-text>
+          <p>ID: {{ trip.createdAt }}</p>
+        </ion-text>
+        <ion-text>
+          <h3><span style="color:#4CAF50">•</span> {{ trip.origin.vicinity }}</h3>
+          <p>{{ trip.pickedUpAt | date: 'medium'}}</p>
+        </ion-text>
+        <ion-text>
+          <h3><span style="color:#F44336">•</span> {{ trip.destination.vicinity }}</h3>
+          <p>{{ trip.droppedOffAt | date: 'medium'}}</p>
+        </ion-text>
+        <ion-text>
+          <ion-row>
+            <ion-col>
+              <p>{{'FEE' | translate}}: {{trip.currency}} {{trip.fee}}</p>
+            </ion-col>
+            <ion-col *ngIf="trip.discount != 0">
+              <p>Discount: {{trip.discount}} ({{trip.promocode}})</p>
+            </ion-col>
+            <ion-col>
+              <p>Payment Mode: {{ trip.paymentMethod }}</p>
+            </ion-col>
+          </ion-row>
+        </ion-text>
+      </ion-label>
+      <ion-badge slot="end">
+        {{trip.currency}} {{ (trip.fee - (trip.fee * trip.discount / 100)).toFixed(2) }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+</ion-content>

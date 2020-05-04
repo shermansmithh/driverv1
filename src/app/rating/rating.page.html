@@ -1,0 +1,27 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>rating</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="text-align: center">
+    <h1 style="font-size:5rem;"> {{ (trip)?.currency }} {{(trip)?.final}}</h1>
+    <p *ngIf="trip.promo">{{ (trip)?.discount}} - {{(trip)?.promo}}</p>
+    <p>Payment Mode: {{(trip)?.paymentMethod}}</p>
+  </div>
+  <div style="display: flex; justify-content: center; align-items: center; flex-direction: column; text-align: center ">
+    <img src="{{ (driver)?.photoURL }}" style="height:80px" />
+    <h3>{{(driver)?.name}}</h3>
+    <p>{{ (driver)?.plate }} • {{ (driver)?.brand }}</p>
+    <ion-rating [rate]="rating" (rateChange)="onRateChange($event)"></ion-rating>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button expand="block" color="dark" (click)="rateTrip()">RATE THIS TRIP</ion-button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-toolbar color="dark"></ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="login-header">
+    <img src="./assets/img/logo.png" />
+    <h2 ion-text color="light">{{'LOGIN' | translate}}</h2>
+  </div>
+  <div padding>
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label position="stacked">{{'EMAIL_ADDRESS' | translate }}</ion-label>
+        <ion-input type="text" [(ngModel)]="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">{{'PASSWORD' | translate }}</ion-label>
+        <ion-input type="password" [(ngModel)]="password"></ion-input>
+
+      </ion-item>
+    </ion-list>
+    <div padding>
+      <ion-button color="dark" expand="block" (click)="login()">{{'LOGIN' | translate }}</ion-button>
+      <ion-button color="medium" expand="block" fill="clear" slot="end" (click)="reset()">
+        {{'FORGOT' | translate }}
+      </ion-button>
+    </div>
+  </div>
+
+</ion-content>
+<ion-footer *ngIf="isRegisterEnabled">
+  <ion-toolbar>
+    <ion-button color="dark" fill="clear" expand="block" routerLink="/register">{{'REGISTER' | translate }}</ion-button>
+  </ion-toolbar>
+</ion-footer>

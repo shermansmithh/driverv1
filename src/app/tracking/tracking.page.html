@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{'ON_THE_WAY' | translate}}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="tripStatus == 'waiting'" (click)="cancelTrip()">{{'CANCEL_TRIP' | translate}}
+      </ion-button>
+      <ion-button fill="outline" color="danger" href="tel:{{sos}}" *ngIf="tripStatus == 'going'">{{'SOS' | translate}}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="map" style="height:100%"></div>
+</ion-content>
+<ion-footer>
+
+
+  <div style="text-align:right; color: #222">
+    <span style="background:#ffff00">{{ 'OTP' | translate}}: {{ (trip)?.otp }}</span>
+  </div>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img src="{{ (driver)?.photoURL }}" />
+    </ion-avatar>
+    <ion-label>
+      <ion-text>
+        <h2>{{ (driver)?.name }} &nbsp; {{(driver)?.rating}} <ion-icon name="md-star" color="yellow"></ion-icon>
+        </h2>
+      </ion-text>
+      <ion-text>
+        <p>{{ (driver)?.plate }} &middot; {{ (driver)?.brand }}</p>
+      </ion-text>
+    </ion-label>
+    <ion-button color="dark" slot="end" href="tel: {{ (driver)?.phoneNumber }} ">
+      <ion-icon name="call"></ion-icon>&nbsp;{{'CALL' | translate}}
+    </ion-button>
+  </ion-item>
+  <ion-button color="dark" expand="block" (click)="showRateCard()">{{'SHOW_RATE_CARD' | translate}}
+  </ion-button>
+</ion-footer>
