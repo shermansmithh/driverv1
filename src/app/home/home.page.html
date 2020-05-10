@@ -52,6 +52,7 @@
     <ion-button expand="block" color="dark" [hidden]="destination" (click)="chooseDestination()">
       {{'RIDE_NOW' | translate}}</ion-button>
     <ion-button expand="block" color="dark" [hidden]="!destination" (click)="book()">
+      {{locateDriver}}
       {{ locateDriver == false ? 'RIDE NOW':'Locating Drivers'}} <ion-spinner name="dots" color="light"
         [hidden]="!locateDriver"></ion-spinner>
     </ion-button>

@@ -1,6 +1,7 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>{{'ON_THE_WAY' | translate}}</ion-title>
+    <ion-title *ngIf="!finish">{{'ON_THE_WAY' | translate}}</ion-title>
+    <ion-title *ngIf="finish">Your Trip Is Finished</ion-title>
     <ion-buttons slot="end">
       <ion-button *ngIf="tripStatus == 'waiting'" (click)="cancelTrip()">{{'CANCEL_TRIP' | translate}}
       </ion-button>

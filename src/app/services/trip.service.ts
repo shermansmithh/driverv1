@@ -152,6 +152,7 @@ export class TripService {
   }
 
   rateTrip(tripId, stars) {
+    console.log(stars)
     return this.db.object('trips/' + tripId).update({
       rating: parseInt(stars)
     });

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { POSITION_INTERVAL, TRIP_STATUS_GOING, SOS } from 'src/environments/environment.prod';
+import { POSITION_INTERVAL, TRIP_STATUS_GOING,TRIP_STATUS_FINISHED, SOS } from 'src/environments/environment.prod';
 import { DriverService } from '../services/driver.service';
 import { MenuController } from '@ionic/angular';
 import { TripService } from '../services/trip.service';
@@ -27,6 +27,7 @@ export class TrackingPage implements OnInit {
   sos: any;
   alertCnt: any = 0;
   rate: any = 5;
+  finish : boolean = false
 
   constructor(
     private driverService: DriverService,
@@ -72,6 +73,9 @@ export class TrackingPage implements OnInit {
   watchTrip(tripId) {
     this.tripService.getTrip(tripId).valueChanges().subscribe((snapshot: any) => {
       this.tripStatus = snapshot.status;
+      if (this.tripStatus == TRIP_STATUS_FINISHED) {
+       this.finish == true
+      }
     });
   }
   showRateCard() {
@@ -153,6 +157,8 @@ export class TrackingPage implements OnInit {
         console.log(this.tripStatus);
         this.map.setCenter(latLng);
       }
+
+    
 
       // show vehicle to map
       this.marker = new google.maps.Marker({
