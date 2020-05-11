@@ -33,6 +33,7 @@ export class HomePage implements OnInit {
   vehicles: any = [];
   currentVehicle: any;
   note: any = '';
+  package: any =''
   promocode: any = '';
   map: any;
   origin: any;
@@ -59,6 +60,7 @@ export class HomePage implements OnInit {
 
   distanceText: any = '';
   durationText: any = '';
+  packagetype: any = "publictransportation"
 
   constructor(
     private router: Router,
@@ -116,6 +118,7 @@ export class HomePage implements OnInit {
       header: "Choose Payments",
       inputs: [
         { type: 'radio', label: "Cash", value: 'cash' },
+        { type: 'radio', label: "Swipe", value: 'swipe'},
         { type: 'radio', label: "Card", value: 'card' }
       ],
       buttons: [{
@@ -150,6 +153,10 @@ export class HomePage implements OnInit {
             })
           }
           else if (data == 'cash') {
+            this.paymentMethod = data;
+            this.tripService.setPaymentMethod(data);
+          }
+          else if (data == 'swipe') {
             this.paymentMethod = data;
             this.tripService.setPaymentMethod(data);
           }
@@ -382,6 +389,30 @@ export class HomePage implements OnInit {
 
   };
 
+  showPackagePopup() {
+    this.alertCtrl.create({
+      header: 'Package Information',
+      message: "",
+      inputs: [
+        { name: 'name', placeholder: 'Package Name' },
+        { name: 'description', placeholder: 'Package Discription' },
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Save',
+          handler: data => {
+            this.package = data;
+            this.tripService.setPackage(data);
+            console.log('Saved clicked');
+            console.log(data)
+          }
+        }
+      ]
+    }).then(prompt => prompt.present());
+
+  };
+
   // go to next view when the 'Book' button is clicked
   book() {
 
@@ -393,6 +424,7 @@ export class HomePage implements OnInit {
     this.tripService.setIcon(this.currentVehicle.icon);
     this.tripService.setNote(this.note);
     this.tripService.setPromo(this.promocode);
+    this.tripService.setPackage(this.package)
     this.tripService.setDiscount(this.discount);
     // this.tripService.setPaymentMethod('');
     this.drivers = this.tripService.getAvailableDrivers();
@@ -429,9 +461,10 @@ export class HomePage implements OnInit {
             this.tripService.getFee(),
             this.tripService.getCurrency(),
             this.tripService.getNote(),
+            this.tripService.getPackage(),
             this.tripService.getPaymentMethod(),
             this.tripService.getPromo(),
-            this.tripService.getDiscount()
+            this.tripService.getDiscount(),
           ).then(() => {
             let sub = this.dealService.getDriverDeal(driver.key).valueChanges().subscribe((snap: any) => {
               // if record doesn't exist or is accepted

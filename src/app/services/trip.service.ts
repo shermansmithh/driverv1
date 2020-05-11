@@ -16,6 +16,7 @@ export class TripService {
   private distance: number;
   private fee: number;
   private note: string;
+  private package : any;
   private paymentMethod: any = 'card';
   private vehicle: any;
   private promocode: any;
@@ -84,6 +85,13 @@ export class TripService {
 
   setNote(note) {
     return this.note = note;
+  }
+
+  setPackage(packagein){
+    return this.package = packagein;
+  }
+  getPackage(){
+  return this.package;
   }
 
   getNote() {

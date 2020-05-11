@@ -28,6 +28,7 @@ export class TrackingPage implements OnInit {
   alertCnt: any = 0;
   rate: any = 5;
   finish : boolean = false
+  tripsubscriber
 
   constructor(
     private driverService: DriverService,
@@ -47,8 +48,15 @@ export class TrackingPage implements OnInit {
     this.menuCtrl.enable(true);
     let tripId = this.tripService.getId();
 
-    this.tripService.getTrip(tripId).valueChanges().subscribe((snapshot: any) => {
+   this.tripsubscriber = this.tripService.getTrip(tripId).valueChanges().subscribe((snapshot: any) => {
       if (snapshot != null) {
+
+        if (this.tripStatus == TRIP_STATUS_FINISHED) {
+          this.showRateCard()
+          this.finish = true
+          console.log("foo1")
+         }
+
         console.log(this.trip)
         this.trip = snapshot;
         console.log(this.trip);
@@ -61,6 +69,8 @@ export class TrackingPage implements OnInit {
           // init map
           this.loadMap();
         })
+      }else{
+        console.log("foo2")
       }
     });
 
@@ -73,21 +83,23 @@ export class TrackingPage implements OnInit {
   watchTrip(tripId) {
     this.tripService.getTrip(tripId).valueChanges().subscribe((snapshot: any) => {
       this.tripStatus = snapshot.status;
-      if (this.tripStatus == TRIP_STATUS_FINISHED) {
-       this.finish == true
-      }
+      
     });
   }
+
   showRateCard() {
+    var vm = this
     let final = this.trip.fee - (this.trip.fee * (parseInt(this.trip.discount) / 100));
     this.trip.final = final;
+    // this.tripsubscriber.unsubscribe();
 
-    this.router.navigate(['rating'], {
-      queryParams: {
-        trip: JSON.stringify(this.trip),
-        driver: JSON.stringify(this.driver)
-      }
-    });
+      vm.router.navigate(['rating'], {
+        queryParams: {
+          trip: JSON.stringify(this.trip),
+          driver: JSON.stringify(this.driver)
+        }
+      });
+   
   }
 
 
