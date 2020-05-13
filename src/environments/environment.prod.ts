@@ -10,7 +10,7 @@ export const environment = {
   }
 };
 
-export let SHOW_VEHICLES_WITHIN = 100; // within 5km
+export let SHOW_VEHICLES_WITHIN = 50; // within 5km
 export let POSITION_INTERVAL = 10000; // 2000ms
 export let VEHICLE_LAST_ACTIVE_LIMIT = 60000; // 60s
 

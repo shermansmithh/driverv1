@@ -83,7 +83,10 @@ export class HomePage implements OnInit {
   
   }
   ionViewDidEnter() {
+
     this.locateDriver = false
+    this.note = '';
+    this.package =''
     this.menuCtrl.enable(true);
     this.afAuth.authState.subscribe(authData => {
       if (authData) {
@@ -423,8 +426,8 @@ export class HomePage implements OnInit {
     this.tripService.setFee(this.currentVehicle.fee);
     this.tripService.setIcon(this.currentVehicle.icon);
     this.tripService.setNote(this.note);
-    this.tripService.setPromo(this.promocode);
     this.tripService.setPackage(this.package)
+    this.tripService.setPromo(this.promocode);
     this.tripService.setDiscount(this.discount);
     // this.tripService.setPaymentMethod('');
     this.drivers = this.tripService.getAvailableDrivers();

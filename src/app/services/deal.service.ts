@@ -14,7 +14,8 @@ export class DealService {
   // sort driver by rating & distance
   sortDriversList(drivers: Array<any>) {
     return drivers.sort((a, b) => {
-      return (a.rating - a.distance / 5) - (b.rating - b.distance / 5);
+      // return (a.rating - a.distance / 5) - (b.rating - b.distance / 5);
+      return (a.distance) - (b.distance);
     })
   }
 
