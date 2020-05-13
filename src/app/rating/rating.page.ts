@@ -28,7 +28,8 @@ export class RatingPage implements OnInit {
   }
 
   onRateChange(event) {
-    this.rating = event.value;
+    console.log(event)
+    this.rating = event;
   }
 
   rateTrip() {

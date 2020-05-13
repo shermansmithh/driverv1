@@ -14,6 +14,7 @@ import { DEAL_STATUS_PENDING, DEAL_STATUS_ACCEPTED, POSITION_INTERVAL, SHOW_VEHI
 import { take } from 'rxjs/operators';
 import { CommonService } from '../services/common.service';
 import * as firebase from 'firebase';
+import { HttpClient } from '@angular/common/http';
 
 declare var google: any;
 declare var Stripe: any;
@@ -32,10 +33,11 @@ export class HomePage implements OnInit {
   vehicles: any = [];
   currentVehicle: any;
   note: any = '';
+  package: any =''
   promocode: any = '';
   map: any;
   origin: any;
-  destination: any;
+  destination: any
   distance: number = 0;
   duration: number = 0;
   currency: string;
@@ -58,6 +60,7 @@ export class HomePage implements OnInit {
 
   distanceText: any = '';
   durationText: any = '';
+  packagetype: any = "publictransportation"
 
   constructor(
     private router: Router,
@@ -73,11 +76,14 @@ export class HomePage implements OnInit {
     private translate: TranslateService,
     private dealService: DealService,
     private common: CommonService,
-    private menuCtrl: MenuController
+    private menuCtrl: MenuController,
+    private http: HttpClient
   ) {
 
+  
   }
   ionViewDidEnter() {
+    this.locateDriver = false
     this.menuCtrl.enable(true);
     this.afAuth.authState.subscribe(authData => {
       if (authData) {
@@ -88,6 +94,9 @@ export class HomePage implements OnInit {
     this.origin = this.tripService.getOrigin();
     this.destination = this.tripService.getDestination();
     this.loadMap();
+
+    console.log(this.tripService.getId())
+   
   }
 
   ngOnInit() {
@@ -109,6 +118,7 @@ export class HomePage implements OnInit {
       header: "Choose Payments",
       inputs: [
         { type: 'radio', label: "Cash", value: 'cash' },
+        { type: 'radio', label: "Swipe", value: 'swipe'},
         { type: 'radio', label: "Card", value: 'card' }
       ],
       buttons: [{
@@ -143,6 +153,10 @@ export class HomePage implements OnInit {
             })
           }
           else if (data == 'cash') {
+            this.paymentMethod = data;
+            this.tripService.setPaymentMethod(data);
+          }
+          else if (data == 'swipe') {
             this.paymentMethod = data;
             this.tripService.setPaymentMethod(data);
           }
@@ -288,6 +302,23 @@ export class HomePage implements OnInit {
       console.log('Error getting location', error);
     });
   }
+
+
+  postNotification(receiver) {
+    var message = "You Are Getting a Request " 
+    let title = "Messsage"
+    let authkey = "AAAAAI_l738:APA91bFVMt4LDnfsDVxpUzvvwuyOhTUniIHq1jHZ2lA21DOXxTfAu-QZ_EEjXHygDeFbtGyn8f3Bni-viBW1_upQF1F8sUaGaL-3O7WZOj_SUMQeCxyUAyLUwPWtnuF3jyqz2Iy2J8uc"
+    let headers = { 'Content-Type': 'application/json', 'Authorization': 'key=' + authkey };
+    let body = { "to": "/topics/" + receiver.uid, "priority": "high", "notification": { "body": message, "title": title, "senderuid": firebase.auth().currentUser.uid
+  } };
+    let URL = "https://fcm.googleapis.com/fcm/send"
+
+    if (receiver.newmessages) {
+      this.http.post(URL, body, { headers }).subscribe(data => {
+      });
+    }
+  }
+
   showPromoPopup() {
     this.alertCtrl.create({
       header: 'Enter Promo code',
@@ -358,6 +389,30 @@ export class HomePage implements OnInit {
 
   };
 
+  showPackagePopup() {
+    this.alertCtrl.create({
+      header: 'Package Information',
+      message: "",
+      inputs: [
+        { name: 'name', placeholder: 'Package Name' },
+        { name: 'description', placeholder: 'Package Discription' },
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: 'Save',
+          handler: data => {
+            this.package = data;
+            this.tripService.setPackage(data);
+            console.log('Saved clicked');
+            console.log(data)
+          }
+        }
+      ]
+    }).then(prompt => prompt.present());
+
+  };
+
   // go to next view when the 'Book' button is clicked
   book() {
 
@@ -369,6 +424,7 @@ export class HomePage implements OnInit {
     this.tripService.setIcon(this.currentVehicle.icon);
     this.tripService.setNote(this.note);
     this.tripService.setPromo(this.promocode);
+    this.tripService.setPackage(this.package)
     this.tripService.setDiscount(this.discount);
     // this.tripService.setPaymentMethod('');
     this.drivers = this.tripService.getAvailableDrivers();
@@ -382,6 +438,7 @@ export class HomePage implements OnInit {
   }
 
   makeDeal(index) {
+    var vm = this
     let driver = this.drivers[index];
     let dealAccepted = false;
 
@@ -391,6 +448,9 @@ export class HomePage implements OnInit {
         // if user is available
         console.log(snapshot);
         if (snapshot == null) {
+
+          // SEND FCM NOTIFICATION
+          vm.postNotification(driver)
           // create a record
           console.log(snapshot);
           this.dealService.makeDeal(
@@ -401,9 +461,10 @@ export class HomePage implements OnInit {
             this.tripService.getFee(),
             this.tripService.getCurrency(),
             this.tripService.getNote(),
+            this.tripService.getPackage(),
             this.tripService.getPaymentMethod(),
             this.tripService.getPromo(),
-            this.tripService.getDiscount()
+            this.tripService.getDiscount(),
           ).then(() => {
             let sub = this.dealService.getDriverDeal(driver.key).valueChanges().subscribe((snap: any) => {
               // if record doesn't exist or is accepted

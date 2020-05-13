@@ -4,7 +4,21 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Home</ion-title>
+
+    <ion-buttons slot="end">
+ 
+      <ion-select placeholder="Type" [(ngModel)]="packagetype">
+        <ion-select-option value="publictransportation">Public Transportation</ion-select-option>
+        <ion-select-option value="packagedelivery">Package Delivery</ion-select-option>
+        </ion-select>
+      </ion-buttons>
+
+    
+    
   </ion-toolbar>
+
+    
+ 
 </ion-header>
 <ion-content>
   <div class="locationinput-holder">
@@ -31,9 +45,13 @@
         <ion-icon name="create" color="gray"></ion-icon>
         <span ion-text color="gray">{{'PROMO' | translate}}</span>
       </ion-col>
-      <ion-col (click)="showNotePopup()">
+      <ion-col *ngIf="packagetype == 'publictransportation'" (click)="showNotePopup()">
         <ion-icon name="create" color="gray"></ion-icon>
         <span ion-text color="gray">{{'NOTE' | translate}}</span>
+      </ion-col>
+      <ion-col *ngIf="packagetype == 'packagedelivery'" (click)="showPackagePopup()">
+        <ion-icon name="folder-outline"></ion-icon>
+        <span ion-text color="gray">Package</span>
       </ion-col>
     </ion-row>
 
@@ -52,6 +70,7 @@
     <ion-button expand="block" color="dark" [hidden]="destination" (click)="chooseDestination()">
       {{'RIDE_NOW' | translate}}</ion-button>
     <ion-button expand="block" color="dark" [hidden]="!destination" (click)="book()">
+
       {{ locateDriver == false ? 'RIDE NOW':'Locating Drivers'}} <ion-spinner name="dots" color="light"
         [hidden]="!locateDriver"></ion-spinner>
     </ion-button>

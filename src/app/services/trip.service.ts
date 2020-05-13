@@ -16,6 +16,7 @@ export class TripService {
   private distance: number;
   private fee: number;
   private note: string;
+  private package : any;
   private paymentMethod: any = 'card';
   private vehicle: any;
   private promocode: any;
@@ -86,6 +87,13 @@ export class TripService {
     return this.note = note;
   }
 
+  setPackage(packagein){
+    return this.package = packagein;
+  }
+  getPackage(){
+  return this.package;
+  }
+
   getNote() {
     return this.note;
   }
@@ -152,6 +160,7 @@ export class TripService {
   }
 
   rateTrip(tripId, stars) {
+    console.log(stars)
     return this.db.object('trips/' + tripId).update({
       rating: parseInt(stars)
     });

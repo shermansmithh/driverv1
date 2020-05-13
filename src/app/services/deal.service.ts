@@ -19,7 +19,7 @@ export class DealService {
   }
 
   // make deal to driver
-  makeDeal(driverId, origin, destination, distance, fee, currency, note, paymentMethod, promocode, discount) {
+  makeDeal(driverId, origin, destination, distance, fee, currency, note,packageobj, paymentMethod, promocode, discount) {
     let user = this.authService.getUserData();
     return this.db.object('deals/' + driverId).set({
       passengerId: user.uid,
@@ -29,6 +29,7 @@ export class DealService {
       distance: distance,
       fee: fee,
       note: note,
+      package: packageobj,
       paymentMethod: paymentMethod,
       status: DEAL_STATUS_PENDING,
       createdAt: Date.now(),
