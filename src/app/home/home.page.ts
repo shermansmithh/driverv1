@@ -308,12 +308,12 @@ export class HomePage implements OnInit {
 
 
   postNotification(receiver) {
-    console.log("###")
+  
     var message = "You Are Getting a Request " 
     let title = "Messsage"
     let authkey = "AAAAxAFy7dY:APA91bFGR66wzcN0_ec58lvLDp-D6GLu9TnyxNY568vf60ApRZTlPvaZwG4NSooHiY086p9FTXksZdKuiLt11VrQP9Gb8qWNqzhzOx-v6YNUG1obvFd1MdotGXg3CjA38oolJr_w6ibf"
     let headers = { 'Content-Type': 'application/json', 'Authorization': 'key=' + authkey };
-    let body = { "to": "/topics/" + receiver.uid, "priority": "high", "notification": { "body": message, "title": title, "senderuid": firebase.auth().currentUser.uid
+    let body = { "to": "/topics/" + receiver.key, "priority": "high", "notification": { "body": message, "title": title, "senderuid": firebase.auth().currentUser.uid
   } };
     let URL = "https://fcm.googleapis.com/fcm/send"
 
