@@ -308,18 +308,22 @@ export class HomePage implements OnInit {
 
 
   postNotification(receiver) {
+    console.log("###")
     var message = "You Are Getting a Request " 
     let title = "Messsage"
-    let authkey = "AAAAAI_l738:APA91bFVMt4LDnfsDVxpUzvvwuyOhTUniIHq1jHZ2lA21DOXxTfAu-QZ_EEjXHygDeFbtGyn8f3Bni-viBW1_upQF1F8sUaGaL-3O7WZOj_SUMQeCxyUAyLUwPWtnuF3jyqz2Iy2J8uc"
+    let authkey = "AAAAxAFy7dY:APA91bFGR66wzcN0_ec58lvLDp-D6GLu9TnyxNY568vf60ApRZTlPvaZwG4NSooHiY086p9FTXksZdKuiLt11VrQP9Gb8qWNqzhzOx-v6YNUG1obvFd1MdotGXg3CjA38oolJr_w6ibf"
     let headers = { 'Content-Type': 'application/json', 'Authorization': 'key=' + authkey };
     let body = { "to": "/topics/" + receiver.uid, "priority": "high", "notification": { "body": message, "title": title, "senderuid": firebase.auth().currentUser.uid
   } };
     let URL = "https://fcm.googleapis.com/fcm/send"
 
-    if (receiver.newmessages) {
+  
       this.http.post(URL, body, { headers }).subscribe(data => {
+        console.log(data)
       });
-    }
+    
+
+    console.log("foo2")
   }
 
   showPromoPopup() {
@@ -490,6 +494,7 @@ export class HomePage implements OnInit {
             });
           });
         } else {
+          console.log(index)
           this.nextDriver(index);
         }
       });
